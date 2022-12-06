@@ -48,6 +48,9 @@ public class FlutterWebViewController: NSObject, FlutterPlatformView {
         let javaScriptBridgeJSScript = WKUserScript(source: javaScriptBridgeJS, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         configuration.userContentController.addUserScript(javaScriptBridgeJSScript)
         configuration.userContentController.add(NativeWebViewContentController(channel: channel), name: "callHandler")
+        
+        let dropSharedWorkersScript = WKUserScript(source: "delete window.SharedWorker;", injectionTime: WKUserScriptInjectionTime.atDocumentStart, forMainFrameOnly: false)
+        configuration.userContentController.addUserScript(dropSharedWorkersScript)
 
         let initialURL = args["initialUrl"] as? String ?? "about:blank"
         let initialFile = args["initialFile"] as? String
